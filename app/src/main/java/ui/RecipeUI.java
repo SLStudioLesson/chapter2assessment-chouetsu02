@@ -43,7 +43,10 @@ public class RecipeUI {
                         // 設問2: 新規登録機能
                         addNewRecipe();
                         break;
-                    case "3":
+                    case"3":
+                        // searchRecipe();
+                        break;
+                    case "4":
                         System.out.println("Exit the application.");
                         return;
                     default:
