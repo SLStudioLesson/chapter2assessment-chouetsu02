@@ -37,14 +37,13 @@ public class RecipeUI {
                 switch (choice) {
                     case "1":
                         // 設問1: 一覧表示機能
+                        displayRecipes();
                         break;
                     case "2":
                         // 設問2: 新規登録機能
+                        addNewRecipe();
                         break;
                     case "3":
-                        // 設問3: 検索機能
-                        break;
-                    case "4":
                         System.out.println("Exit the application.");
                         return;
                     default:
@@ -62,7 +61,22 @@ public class RecipeUI {
      * RecipeFileHandlerから読み込んだレシピデータを整形してコンソールに表示します。
      */
     private void displayRecipes() {
+        ArrayList<String> recipes = fileHandler.readRecipes();
 
+        if (recipes.isEmpty()) {
+            // レシピデータが空の場合のメッセージを表示します。
+            System.out.println("No recipes available.");
+        } else {
+            // レシピデータが存在する場合、整形して表示します。
+            System.out.println("Recipes:");
+            System.out.println("-----------------------------------");
+            for (String recipe : recipes) {
+                String[] parts = recipe.split(",", 2); // レシピ名と材料を分割
+                System.out.println("Recipe Name: " + parts[0]);
+                System.out.println("Main Ingredients: " + parts[1].trim());
+                System.out.println("-----------------------------------");
+            }
+        }
     }
 
     /**
@@ -72,18 +86,13 @@ public class RecipeUI {
      * @throws java.io.IOException 入出力が受け付けられない
      */
     private void addNewRecipe() throws IOException {
+        System.out.print("Enter recipe name: ");
+        String recipeName = reader.readLine();
+        System.out.print("Enter main ingredients (comma separated): ");
+        String ingredients = reader.readLine();
 
+        fileHandler.addRecipe(recipeName, ingredients);
+        System.out.println("Recipe added successfully!");
     }
-
-    /**
-     * 設問3: 検索機能
-     * ユーザーから検索クエリを入力させ、そのクエリに基づいてレシピを検索し、一致するレシピをコンソールに表示します。
-     *
-     * @throws java.io.IOException 入出力が受け付けられない
-     */
-    private void searchRecipe() throws IOException {
-
-    }
-
 }
 

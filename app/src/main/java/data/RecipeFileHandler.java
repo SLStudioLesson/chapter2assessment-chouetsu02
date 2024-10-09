@@ -1,5 +1,9 @@
 package data;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -22,13 +26,23 @@ public class RecipeFileHandler {
      * @return レシピデータ
      */
     public ArrayList<String> readRecipes() {
-        // try {
-
-        // } catch (IOException e) {
-        //     System.out.println("Error reading file:" + e.getMessage());
-        // }
-        return null;
+        ArrayList<String> recipes = new ArrayList<>();
+        try {
+            // recipes.txtファイルを読み込むためのBufferedReader
+            BufferedReader reader = new BufferedReader(new FileReader(filePath));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                // 各行をレシピリストに追加します。
+                recipes.add(line);
+            }
+            reader.close();
+        } catch (IOException e) {
+            // IOExceptionが発生した場合、エラーメッセージを表示します。
+            System.out.println("Error reading file: " + e.getMessage());
+        }
+        return recipes;
     }
+
 
     /**
      * 設問2: 新規登録機能
@@ -39,11 +53,17 @@ public class RecipeFileHandler {
      * @param ingredients 材料名
      */
      // 
-    public void addRecipe(String recipeName, String ingredients) {
-        // try {
-
-        // } catch (IOException e) {
-
-        // }
+     public void addRecipe(String recipeName, String ingredients) {
+        try {
+            // FileWriterを使ってファイルに新しいレシピを追加します。
+            BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true));
+            writer.write(recipeName + "," + ingredients);
+            writer.newLine();
+            writer.close();
+        } catch (IOException e) {
+            // IOExceptionが発生した場合、エラーメッセージを表示します。
+            System.out.println("Error writing to file: " + e.getMessage());
+        }
     }
+        
 }
